@@ -4,6 +4,7 @@
 
 import youtube_dl
 import sys
+from metasong import Metasong
 
 def download_mp3(url):
     '''
@@ -23,16 +24,6 @@ def download_mp3(url):
         ydl.download([video_info['webpage_url']])
     print(f"Download complete... {filename}")
 
-def parse_args(argv):
-    '''
-    return the url if there is one
-    '''
-    if (len(argv) < 2):
-        print(f"Usage: {argv[0]} <url>")
-        exit(1)
-    return argv[1]
-
-
 def command_collect(commands):
     '''
     download from youtube
@@ -40,6 +31,10 @@ def command_collect(commands):
     if (len(commands) < 2):
         print("Usage: collect <url>")
         return
+    try:
+        download_mp3(commands[1])
+    except:
+        print(f"command failed. \nIs the url '{commands[1]}' valid?")
 
 def command_peek(commands):
     '''
@@ -48,6 +43,14 @@ def command_peek(commands):
     if (len(commands) < 2):
         print("Usage: peek <url>")
         return
+    # try:
+    #     meta = Metasong(commands[1])
+    #     meta.printMetadata()
+    # except:
+    #     print(f"command failed. \nIs the url '{commands[1]}' valid?")
+    
+    meta = Metasong(commands[1])
+    meta.printMetadata()
 
 def command_help():
     '''
@@ -66,8 +69,11 @@ def command_help():
 def handle_command(command):
     '''
     interpret user commands and run appropriate logic
+    return False if the program is to terminate
     '''
     commands = command.split()
+    if (len(commands) == 0):
+        return True
     head = commands[0].lower()
     if (head == "quit"):
         return False
@@ -92,6 +98,3 @@ if __name__ == "__main__":
     while (loop):
         command = input("->> musikun~: ")
         loop = handle_command(command)
-
-    # url = parse_args(sys.argv)
-    # download_mp3(url)
