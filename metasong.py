@@ -4,7 +4,7 @@
 from bs4 import BeautifulSoup
 import requests
 import os
-import textwrap
+from eawtextwrap import EAWTextWrapper
 
 class Metasong:
     '''
@@ -52,17 +52,13 @@ class Metasong:
         print nicely formatted details about the song
         '''
         width_char = os.get_terminal_size().columns
-        print(width_char)
-        wrapper = textwrap.TextWrapper(width=width_char - 4, subsequent_indent = '    ')
-        # problem: full-width characters take up twice as much space as half-width characters
+        wrapper = EAWTextWrapper(width=width_char, subsequent_indent = '               ')
 
-        print(f"title:\t\t{self.getTitle()}")
-        print(f"channel:\t{self.getArtist()}")
-        print(f"short desc:\t{self.getDescription()}")
+        metadata = [
+            f"       Title   {self.getTitle()}",
+            f"     Channel   {self.getArtist()}",
+            f" Description   {self.getDescription()}"
+        ]
+        for line in metadata:
+            print('\n'.join(wrapper.wrap(line)))
 
-        print()
-        desc = f"short desc:  {self.getDescription()}"
-        
-        # print(textwrap.wrap(text=desc, width=width_char, subsequent_indent = '\t\t'))
-        print('\n'.join(wrapper.wrap(desc)))
-        

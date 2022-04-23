@@ -5,6 +5,7 @@
 import youtube_dl
 import sys
 from metasong import Metasong
+import requests
 
 def download_mp3(url):
     '''
@@ -43,14 +44,11 @@ def command_peek(commands):
     if (len(commands) < 2):
         print("Usage: peek <url>")
         return
-    # try:
-    #     meta = Metasong(commands[1])
-    #     meta.printMetadata()
-    # except:
-    #     print(f"command failed. \nIs the url '{commands[1]}' valid?")
-    
-    meta = Metasong(commands[1])
-    meta.printMetadata()
+    try:
+        meta = Metasong(commands[1])
+        meta.printMetadata()
+    except requests.exceptions.MissingSchema:
+        print(f"Invalid URL '{commands[1]}'. Try a different URL.")
 
 def command_help():
     '''
