@@ -32,7 +32,66 @@ def parse_args(argv):
         exit(1)
     return argv[1]
 
+
+def command_collect(commands):
+    '''
+    download from youtube
+    '''
+    if (len(commands) < 2):
+        print("Usage: collect <url>")
+        return
+
+def command_peek(commands):
+    '''
+    print metadata that the url points to
+    '''
+    if (len(commands) < 2):
+        print("Usage: peek <url>")
+        return
+
+def command_help():
+    '''
+    display help menu
+    '''
+    print("""Help menu:
+    collect <url>           download music track from youtube url
+    play <song>             play given song
+    peek <url>              check which music the url points to
+    view                    see current downloaded music
+    ---
+    help                    display the help menu
+    quit                    exit the program""")
+
+
+def handle_command(command):
+    '''
+    interpret user commands and run appropriate logic
+    '''
+    commands = command.split()
+    head = commands[0].lower()
+    if (head == "quit"):
+        return False
+    elif (head == "help"):
+        command_help()
+    elif (head == "collect"):
+        command_collect(commands)
+    elif (head == "peek"):
+        command_peek(commands)
+    elif (head == "view"):
+        print("not implemented yet")
+    elif (head == "play"):
+        print("not implemented yet")
+    else:
+        print("Invalid command. Type \"help\" to access the help menu.")
+    return True
+    
+
 if __name__ == "__main__":
-    url = parse_args(sys.argv)
-    download_mp3(url)
-    exit(0)
+    print("Welcome to ~Musikun~")
+    loop = True
+    while (loop):
+        command = input("->> musikun~: ")
+        loop = handle_command(command)
+
+    # url = parse_args(sys.argv)
+    # download_mp3(url)
