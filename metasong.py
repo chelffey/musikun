@@ -9,6 +9,7 @@ from eawtextwrap import EAWTextWrapper
 class Metasong:
     '''
     Class that extracts some metadata from a youtube URL. 
+    urllib.request.urlretrieve(url, "test/response") # save a webpage
     '''
     def __init__(self, url):
         self.url = url
@@ -16,7 +17,7 @@ class Metasong:
             "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
         }
         response = requests.get(url, headers=HEADER)
-        self.soup = BeautifulSoup(response.text, "html.parser")
+        self.soup = BeautifulSoup(response.text, "html.parser")       
 
     def getTitle(self):
         '''
@@ -52,6 +53,7 @@ class Metasong:
         print nicely formatted details about the song
         '''
         width_char = os.get_terminal_size().columns
+        print('-' * width_char)
         wrapper = EAWTextWrapper(width=width_char, subsequent_indent = '               ')
 
         metadata = [
